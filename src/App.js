@@ -7,6 +7,7 @@ import Rank from './components/Rank/Rank';
 import Particles from "react-tsparticles";
 import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import SignInForm from './components/SignInForm/SignInForm';
 
 const app = new Clarifai.App({
   apiKey: 'e19573ee02d348aeb22358ff58f4e7cf'
@@ -92,7 +93,8 @@ class App extends Component {
     this.state={
       input: '',
       imageUrl:'',
-      box : {}
+      box : {},
+      pageName: 'start'
     }
   }
   onInputChange= (event)=>{
@@ -129,6 +131,7 @@ class App extends Component {
           loaded={particlesLoaded}
           options={particleOptions}/>
         <Navigation/>
+        <SignInForm/>
         <Logo/>
         <Rank/>
         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
