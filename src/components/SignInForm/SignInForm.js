@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
 class SignInForm extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            signInEmail : '',
-            signInPassword: ''
-        }
+    constructor(props) {
+    super(props);
+    this.state = {
+      signInEmail: '',
+      signInPassword: ''
     }
+  }
     onEmailChange =(event)=>{
         this.setState({signInEmail: event.target.value})
     }
@@ -15,17 +15,23 @@ class SignInForm extends Component{
         this.setState({signInPassword: event.target.value})
     }
     onSubitSignIn = () => {
-        fetch('http://localhost:3000/signin',{
-            method:'post',
-            mode:'no-cors',
-            headers:{'Accept': 'application/json','Content-Type': 'application/json'},
-            body : JSON.stringify({
-                email:this.state.signInEmail,
-                password: this.state.signInPassword
-            })
+        fetch('http://localhost:3000/signin' ,
+		{
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				email: this.state.signInEmail,
+				password: this.state.signInPassword
+			})
+		})
+        .then(response => response.json())
+        .then(data =>{
+            if(data==='success'){
+                this.props.onRouteChange('home');
+            }
         })
-        console.log(this.state);
-        this.props.onRouteChange('home');
+        
+        
     } 
     render(){
         const {onRouteChange}=this.props;

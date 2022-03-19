@@ -95,12 +95,32 @@ class App extends Component {
       input: '',
       imageUrl:'',
       box : {},
-      route: 'signin'
+      route: 'signin',
+      user: { 
+        id: '',
+        name: '',
+        email:'',
+        entries: 0,
+        joined: ''
+      }
     }
   }
+  
+ 
   onInputChange= (event)=>{
     this.setState({input : event.target.value});
   }
+  loadUser = (user) => {
+    const {id,name,email,entries,joined}=user;
+    this.setState({user: {
+      id: id,
+      name: name,
+      email: email,
+      entries: entries,
+      joined: joined
+    }})
+  }
+  
   calculateFaceRegion = (data)=>{
     const faceRegion= data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage');
@@ -153,7 +173,7 @@ class App extends Component {
           : (
              route === 'signin'
              ? <SignInForm onRouteChange={this.onRouteChange}/>
-             : <Register  onRouteChange={this.onRouteChange}/>
+             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
             )
         }
       </div>
