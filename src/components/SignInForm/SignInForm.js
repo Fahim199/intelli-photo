@@ -26,7 +26,8 @@ class SignInForm extends Component{
 		})
         .then(response => response.json())
         .then(data =>{
-            if(data==='success'){
+            if(data.id){
+                this.props.loadUser(data);
                 this.props.onRouteChange('home');
             }
         })
