@@ -159,10 +159,12 @@ class App extends Component {
         this.displayFaceBox(this.calculateFaceRegion(response))
       })
       .catch(err=> console.log(err));
+      
   }
   onRouteChange = (route) => {
     if (route === 'signout') {
       this.setState({isSignedIn: false})
+      this.setState({imageUrl: ''})
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
