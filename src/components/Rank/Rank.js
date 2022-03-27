@@ -4,7 +4,7 @@ const Rank =({ name, entries})=>{
     return(
         <div>
            <div className='white f3'>
-               {`${name}, your current rank is..`}
+               {`${name}, the number of images you analyzed is...`}
            </div>
            <div className='white f1'>
                {entries}
