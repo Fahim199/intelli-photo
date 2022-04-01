@@ -10,6 +10,14 @@ class Register extends Component{
             status:0
         }
     }
+    validateEmail=(email)=>{
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(email.match(mailformat)){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
     onEmailChange =(event)=>{
         this.setState({ email : event.target.value })
         this.setState({status : 0})
@@ -24,8 +32,10 @@ class Register extends Component{
     }
     
     onSubitRegister = () => {
-        fetch('https://intense-headland-36577.herokuapp.com/register' ,
-		{
+        if(this.validateEmail(this.state.email))
+        {
+          fetch('https://intense-headland-36577.herokuapp.com/register' ,
+		    {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -33,16 +43,18 @@ class Register extends Component{
 				password: this.state.password,
                 name: this.state.name
 			})
-		})
-        .then(response => response.json())
-        .then(data =>{
+		  })
+          .then(response => response.json())
+          .then(data =>{
             if(data.id){
                 this.props.loadUser(data);
                 this.props.onRouteChange('home');
             }else{
                 this.setState({status : 1})
             }
-        })        
+        })}else{
+            this.setState({status : 1})
+        }        
     }
 
     render(){
