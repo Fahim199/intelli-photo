@@ -6,17 +6,21 @@ class Register extends Component{
         this.state={
             name:'',
             email:'',
-            password: ''
+            password: '',
+            status:0
         }
     }
     onEmailChange =(event)=>{
         this.setState({ email : event.target.value })
+        this.setState({status : 0})
     }
     onPasswordChange =(event)=>{
         this.setState({ password : event.target.value })
+        this.setState({status : 0})
     }
     onNameChange = (event) =>{
         this.setState({ name : event.target.value })
+        this.setState({status : 0})
     }
     
     onSubitRegister = () => {
@@ -35,6 +39,8 @@ class Register extends Component{
             if(data.id){
                 this.props.loadUser(data);
                 this.props.onRouteChange('home');
+            }else{
+                this.setState({status : 1})
             }
         })        
     }
@@ -73,6 +79,10 @@ class Register extends Component{
                         type="password" name="password" id="password"
                         onChange={this.onPasswordChange} />
                     </div>
+                    {this.state.status===1
+                            ?<p style={{color: "white"}}>Registration failed</p>
+                            :<p></p>
+                    }
                     </fieldset>
                     <div className="">
                     <input

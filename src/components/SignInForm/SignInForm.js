@@ -5,14 +5,17 @@ class SignInForm extends Component{
     super(props);
     this.state = {
       signInEmail: '',
-      signInPassword: ''
+      signInPassword: '',
+      status:0
     }
   }
     onEmailChange =(event)=>{
         this.setState({signInEmail: event.target.value})
+        this.setState({status : 0})
     }
     onPasswordChange =(event)=>{
         this.setState({signInPassword: event.target.value})
+        this.setState({status : 0})
     }
     onSubitSignIn = () => {
         fetch('https://intense-headland-36577.herokuapp.com/signin' ,
@@ -29,6 +32,8 @@ class SignInForm extends Component{
             if(data.id){
                 this.props.loadUser(data);
                 this.props.onRouteChange('home');
+            }else{
+                this.setState({status: 1})
             }
         })
         
@@ -56,8 +61,13 @@ class SignInForm extends Component{
                                 <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                  type="password" name="password"  id="password"
                                  onChange={this.onPasswordChange}/>
-                            </div>            
+                            </div>
+                            {this.state.status===1
+                            ?<p style={{color: "white"}}>Wrong email or password</p>
+                            :<p></p>
+                            }            
                         </fieldset>
+                        
                         <div className="">
                             <input onClick={this.onSubitSignIn}
                              className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"

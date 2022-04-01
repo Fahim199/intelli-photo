@@ -95,7 +95,8 @@ const initialState={
     name: '',
     email:'',
     entries: 0,
-    joined: ''
+    joined: '',
+    isValid: 1
   }
 }
 class App extends Component {
@@ -107,6 +108,7 @@ class App extends Component {
  
   onInputChange= (event)=>{
     this.setState({input : event.target.value});
+    this.setState({isValid: 1})
   }
   loadUser = (user) => {
     const {id,name,email,entries,joined}=user;
@@ -159,10 +161,13 @@ class App extends Component {
           .then(count => {
             this.setState(Object.assign(this.state.user,{entries: count}))
           })
+          this.displayFaceBox(this.calculateFaceRegion(response))
         }
-        this.displayFaceBox(this.calculateFaceRegion(response))
+        
       })
-      .catch(err=> console.log(err));
+      .catch(err=>{
+        this.setState({isValid: 0})
+        console.log(err)});
       
   }
   onRouteChange = (route) => {
@@ -193,6 +198,9 @@ class App extends Component {
               <Logo />
               <Rank name={user.name} entries={user.entries}/>
               <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+              {this.state.isValid ===0
+              ?<p style ={{color: "white"}}>Invalid Image Url</p>
+              :<p></p>}
               <FaceRecognition box={box} imageUrl={imageUrl} />
             </div>
           : (
